@@ -11,7 +11,7 @@
         <div class="chips" ref="chips"></div>
         <div class="input-field">
           <textarea id="description" class="materialize-textarea" v-model="description" maxlength="2048"></textarea>
-          <label for="description">Textarea</label>
+          <label for="description">Description</label>
           <span class="character-counter" style="float: right; font-size: 12px;">{{description.length}}/2048</span>
         </div>
         <input type="text" ref="datepicker">
@@ -50,11 +50,12 @@ export default {
         title: this.title,
         description: this.description,
         id: Date.now(),
-        status: 'active',
         tags: this.chips.chipsData,
-        date: this.date.date
+        date: this.date.date,
+        status: new Date(this.date) > new Date() ? 'active' : 'outdated'
       }
-      console.log(task)
+      this.$store.dispatch('createTask', task)
+      this.$router.push('list')
     }
   },
   destroyed() {
